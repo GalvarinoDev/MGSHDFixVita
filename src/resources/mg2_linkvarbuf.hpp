@@ -3,8 +3,21 @@
 
 namespace MG2_LinkVarBuf
 {
+    struct PlayStats
+    {
+        int GM_PlayTime;
+        int GM_RationUseCount;
+        int GM_KillCount;
+        int GM_AlertCount;
+        int GM_SpecialItemUsed;
+        int GM_SaveCount;
+        int GM_ContinueCount;
+    };
+
+    static_assert(sizeof(PlayStats) == 0x1C, "PlayStats size");
+
     inline uintptr_t* stateSlot = nullptr;
-    inline uintptr_t* statsBlockAnchor = nullptr;
+    inline PlayStats* playStats = nullptr;
 
     template <typename T, uintptr_t Offset>
     struct StateVarValue
@@ -28,35 +41,7 @@ namespace MG2_LinkVarBuf
         }
     };
 
-    template <typename T, int32_t Offset>
-    struct StatsVarValue
-    {
-        operator T& () const
-        {
-            return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(statsBlockAnchor) + Offset);
-        }
-
-        T& get() const
-        {
-            return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(statsBlockAnchor) + Offset);
-        }
-
-        StatsVarValue& operator=(const T value)
-        {
-            get() = value;
-            return *this;
-        }
-    };
-
     inline StateVarValue<uint32_t, 0x88> GM_Difficulty;
-
-    inline StatsVarValue<uint32_t, 0>  GM_PlayTime; 
-    inline StatsVarValue<uint32_t, 4>  GM_RationUseCount;
-    inline StatsVarValue<uint32_t, 8>  GM_KillCount;
-    inline StatsVarValue<uint32_t, 12> GM_AlertCount;
-    inline StatsVarValue<uint64_t, 16> GM_SpecialItemUsed;
-    inline StatsVarValue<uint32_t, 24> GM_ContinueCount;
-
 
     inline void Initialize()
     {
@@ -69,9 +54,9 @@ namespace MG2_LinkVarBuf
 
         stateSlot = reinterpret_cast<uintptr_t*>(Memory::GetRelativeOffset(Memory::PatternScan(mg2Module, "48 8B 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B 0D ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 48 8B C8", "MG2: stateSlot") + 3));
 
-        statsBlockAnchor = reinterpret_cast<uintptr_t*>(Memory::GetRelativeOffset(Memory::PatternScan(mg2Module, "F2 0F 10 0D", "MG2: statsBlockAnchor (GM_PlayTime)") + 11));
+        playStats = reinterpret_cast<PlayStats*>(Memory::GetRelativeOffset(Memory::PatternScan(mg2Module, "F2 0F 10 0D", "MG2: playStats (GM_PlayTime)") + 11));
 
         spdlog::info("GameVars: MG2 stateSlot address is mg2.dll+{:X}", (uintptr_t)stateSlot - (uintptr_t)mg2Module);
-        spdlog::info("GameVars: MG2 statsBlockAnchor address is mg2.dll+{:X}", (uintptr_t)statsBlockAnchor - (uintptr_t)mg2Module);
+        spdlog::info("GameVars: MG2 playStats address is mg2.dll+{:X}", (uintptr_t)playStats - (uintptr_t)mg2Module);
     }
 }
