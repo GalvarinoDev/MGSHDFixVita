@@ -14,6 +14,9 @@ public:
         bool prevState = false;
     };
 
+    bool RegisterRawMouseInput(HWND hwnd);
+    POINT ConsumeRawMouseDelta();
+
     void RegisterHotkey(int vkCode, const char* name, std::function<void()> callback);
     void RegisterHeldHotkey(int vkCode, const char* name, std::function<void()> callback, DWORD repeatDelayMs = 100);
     void Update();

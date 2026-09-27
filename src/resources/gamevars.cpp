@@ -66,9 +66,32 @@ void GameVars::Initialize()
         p_GM_PlayerWork = reinterpret_cast<uintptr_t*>(Memory::GetRelativeOffset(Memory::PatternScan(baseModule, "48 8B 05 ?? ?? ?? ?? 48 8B 88 ?? ?? ?? ?? 0F BF 51 ?? 75", "MGS 2: GameVars: GM_PlayerWork") + 3));
         p_GM_PlayerBody = reinterpret_cast<uintptr_t*>(Memory::GetRelativeOffset(Memory::PatternScan(baseModule, "48 8B 05 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 0F 10 49", "MGS 2: GameVars: GM_PlayerBody") + 3));
         p_ArmCamShift = reinterpret_cast<FVECTOR*>(Memory::GetRelativeOffset(Memory::PatternScan(baseModule, "48 8D 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? F3 0F 10 87 ?? ?? ?? ?? F3 0F 5C 44 24", "MGS 2: GameVars: ArmCamShift") + 3));
-
-
         p_GM_CameraTarget = reinterpret_cast<FVECTOR*>(Memory::GetRelativeOffset(Memory::PatternScan(baseModule, "48 8D 15 ?? ?? ?? ?? 48 8B F9 4D 89 73", "MGS 2: GameVars: GM_CameraTarget") + 3));
+
+        if (uint8_t* ThirdPersonCameraHSpeed_Scan = Memory::PatternScan(baseModule, "F3 0F 59 05 ?? ?? ?? ?? F3 0F 2C F8 66 29 3D", "MGS 2: GameVars: game\\camera.c | gBP_3rdPersonCamera_HSpeed | @ L51"))
+        {
+            p_gBP_3rdPersonCamera_HSpeed = reinterpret_cast<float*>(Memory::GetRipRelativeAddress(ThirdPersonCameraHSpeed_Scan, 4, 8));
+        }
+        if (uint8_t* ThirdPersonCameraRot_Scan = Memory::PatternScan(baseModule, "0F B7 15 ?? ?? ?? ?? 0F BF CA", "MGS 2: GameVars: game\\camera.c | gBP_3rdPersonCamera_Rot | @ L49"))
+        {
+            p_gBP_3rdPersonCamera_Rot = reinterpret_cast<SVECTOR*>(Memory::GetRipRelativeAddress(ThirdPersonCameraRot_Scan, 3, 7));
+        }
+        if (uint8_t* ThirdPersonCameraVSpeed_Scan = Memory::PatternScan(baseModule, "F3 0F 59 05 ?? ?? ?? ?? F3 0F 2C C0 EB ?? 8B C7", "MGS 2: GameVars: game\\camera.c | gBP_3rdPersonCamera_VSpeed | @ L52"))
+        {
+            p_gBP_3rdPersonCamera_VSpeed = reinterpret_cast<float*>(Memory::GetRipRelativeAddress(ThirdPersonCameraVSpeed_Scan, 4, 8));
+        }
+        if (uint8_t* ThirdPersonCameraOverride_Scan = Memory::PatternScan(baseModule, "83 3D ?? ?? ?? ?? 00 0F 28 74 24", "MGS 2: GameVars: game\\camera.c | gBP_3rdPersonCamera_Override | @ L46"))
+        {
+            p_gBP_3rdPersonCamera_Override = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(ThirdPersonCameraOverride_Scan, 2, 7));
+        }
+        if (uint8_t* ThirdPersonCameraDist_Scan = Memory::PatternScan(baseModule, "4C 8D 0D ?? ?? ?? ?? F3 0F 11 05", "MGS 2: GameVars: game\\camera.c | gBP_3rdPersonCamera_Dist | @ L50"))
+        {
+            p_gBP_3rdPersonCamera_Dist = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(ThirdPersonCameraDist_Scan, 3, 7));
+        }
+        if (uint8_t* CameraInheritRot_Scan = Memory::PatternScan(baseModule, "83 3D ?? ?? ?? ?? 00 48 8B D9 74 ?? 48 8B 05", "MGS 2: GameVars: user\\sonoyama\\raiden\\routine.c | PL_IntoSubject() | @ L33"))
+        {
+            p_gBP_Camera_InheritRot = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(CameraInheritRot_Scan, 2, 7));
+        }
 
         
         spdlog::info("GameVars: GM_GameStatus address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)GM_GameStatus - (uintptr_t)baseModule);
@@ -95,6 +118,12 @@ void GameVars::Initialize()
         spdlog::info("GameVars: GM_PlayerWork address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_GM_PlayerWork - (uintptr_t)baseModule);
         spdlog::info("GameVars: GM_PlayerBody address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_GM_PlayerBody - (uintptr_t)baseModule);
         spdlog::info("GameVars: HZX_CurrentGroupID address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_HZX_CurrentGroupID - (uintptr_t)baseModule);
+        spdlog::info("GameVars: gBP_3rdPersonCamera_Override address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_gBP_3rdPersonCamera_Override - (uintptr_t)baseModule);
+        spdlog::info("GameVars: gBP_3rdPersonCamera_Rot address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_gBP_3rdPersonCamera_Rot - (uintptr_t)baseModule);
+        spdlog::info("GameVars: gBP_3rdPersonCamera_Dist address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_gBP_3rdPersonCamera_Dist - (uintptr_t)baseModule);
+        spdlog::info("GameVars: gBP_3rdPersonCamera_HSpeed address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_gBP_3rdPersonCamera_HSpeed - (uintptr_t)baseModule);
+        spdlog::info("GameVars: gBP_3rdPersonCamera_VSpeed address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_gBP_3rdPersonCamera_VSpeed - (uintptr_t)baseModule);
+        spdlog::info("GameVars: gBP_Camera_InheritRot address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_gBP_Camera_InheritRot - (uintptr_t)baseModule);
 
         if (uint8_t* LevelTransitionResult = Memory::PatternScan(baseModule, "89 73 ?? 81 25", "GameVars: Level Transition"))
         {
@@ -124,6 +153,16 @@ void GameVars::Initialize()
         // system/libdg/frame.cpp -> DG_StartFrame() loads both globals before its undraw test.
         p_DG_UnDrawFrameCount32 = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(Memory::PatternScan(baseModule, "8B 0D ?? ?? ?? ?? BB ?? ?? ?? ?? 8B 05", "MGS3: DG_UnDrawFrameCount32"), 2, 6));
         p_DG_LastWhich = reinterpret_cast<int*>(Memory::GetRipRelativeAddress(Memory::PatternScan(baseModule, "8B 05 ?? ?? ?? ?? 8B FB", "MGS3: DG_LastWhich"), 2, 6));
+        if (uint8_t* KeyboardMouseInputActive_Scan = Memory::PatternScan(baseModule, "83 3D ?? ?? ?? ?? 00 74 ?? 83 3D ?? ?? ?? ?? 00 74 ?? B8 ?? ?? ?? ?? C3", "MGS 3: GameVars | Keyboard/mouse input active"))
+        {
+            p_KeyboardMouseInputActive = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(KeyboardMouseInputActive_Scan, 2, 7));
+        }
+        if (uint8_t* MouseMovementActive_Scan = Memory::PatternScan(baseModule, "83 3D ?? ?? ?? ?? 00 74 ?? B8 ?? ?? ?? ?? C3 33 C0", "MGS 3: GameVars | Mouse movement active"))
+        {
+            p_MouseMovementActive = reinterpret_cast<int32_t*>(Memory::GetRipRelativeAddress(MouseMovementActive_Scan, 2, 7));
+        }
+        spdlog::info("GameVars: KeyboardMouseInputActive address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_KeyboardMouseInputActive - (uintptr_t)baseModule);
+        spdlog::info("GameVars: MouseMovementActive address is {:s}+{:X}", sExeName.c_str(), (uintptr_t)p_MouseMovementActive - (uintptr_t)baseModule);
 #if defined(MGS3_FPS_DEV)
         if (uint8_t* FirstPersonCameraEnableMovement_Scan = Memory::PatternScan(baseModule, "83 3D ?? ?? ?? ?? 00 75 ?? B9 BB 00 00 00 E8 ?? ?? ?? ?? 85 C0 0F 84", "MGS 3: GameVars: bp\\shared\\BP_Camera.cpp | gBP_1stPersonCamera_EnableMovement | @ L1086"))
         {

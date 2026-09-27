@@ -16,6 +16,9 @@
     <ClCompile Include="src\features\intro_skip.cpp">
       <Filter>Features</Filter>
     </ClCompile>
+    <ClCompile Include="src\features\raw_mouse_input.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
     <ClCompile Include="src\features\mg1_custom_loading_screens.cpp">
       <Filter>WIP</Filter>
     </ClCompile>
@@ -650,6 +653,9 @@
       <Filter>Features\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\features\mgs2_first_person_view_mode.hpp">
+      <Filter>Features\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\features\raw_mouse_input.hpp">
       <Filter>Features\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\features\original_camera_positions.hpp">

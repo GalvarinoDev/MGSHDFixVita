@@ -51,3 +51,7 @@
 #include <future>
 #include <subauth.h>
 #include <string_view>
+
+
+#include <hidusage.h>
+#include <Xinput.h> //not actually using xinput, as steam input blocks it out - just using the VK defs for the input handler.

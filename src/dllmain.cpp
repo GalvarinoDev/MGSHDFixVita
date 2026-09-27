@@ -34,6 +34,7 @@
 #include "mgs2_3rd_person_freecam.hpp"
 #include "mgs2_difficulty.hpp"
 #include "mgs2_script_patches.hpp"
+#include "raw_mouse_input.hpp"
 #include "mgs2_hostage_type_easter_egg.hpp"
 #include "original_camera_positions.hpp"
 #include "expand_bp_assets.hpp"
@@ -611,6 +612,7 @@ static void InitializeSubsystems()
     //INITIALIZE(g_TextureBufferSize.Initialize());
     INITIALIZE(PressureInputs::Initialize());
     INITIALIZE(Ds3Rumble::Initialize());
+    INITIALIZE(RawMouseInput::Initialize());
     INITIALIZE(SwapMenuButtons::SetMenuButtonInputs());
 
     if (eGameType & MGS2)

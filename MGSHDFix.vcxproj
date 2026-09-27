@@ -148,6 +148,7 @@
     <ClCompile Include="src\resources\logging.cpp" />
     <ClCompile Include="src\features\mg1_custom_loading_screens.cpp" />
     <ClCompile Include="src\features\distance_culling.cpp" />
+    <ClCompile Include="src\features\raw_mouse_input.cpp" />
     <ClCompile Include="src\fixes\aiming_after_equip.cpp" />
     <ClCompile Include="src\resources\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -250,6 +251,7 @@
     <ClInclude Include="src\features\mgs2_first_person_view_mode.hpp" />
     <ClInclude Include="src\features\mgs2_restore_dogtag_viewer.hpp" />
     <ClInclude Include="src\features\original_camera_positions.hpp" />
+    <ClInclude Include="src\features\raw_mouse_input.hpp" />
     <ClInclude Include="src\features\mgs2_restore_phone_jingle.hpp" />
     <ClInclude Include="src\features\mgs3_first_person_view_mode.hpp" />
     <ClInclude Include="src\fixes\mgs2_coolant_mirror.hpp" />

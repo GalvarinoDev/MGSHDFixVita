@@ -178,6 +178,13 @@ public:
 #if defined(MGS3_FPS_DEV)
     [[nodiscard]] int32_t* gBP_1stPersonCamera_EnableMovement() const { return p_gBP_1stPersonCamera_EnableMovement; }
 #endif
+    [[nodiscard]] int32_t* gBP_3rdPersonCamera_Override() const { return p_gBP_3rdPersonCamera_Override; }
+    [[nodiscard]] SVECTOR* gBP_3rdPersonCamera_Rot() const { return p_gBP_3rdPersonCamera_Rot; }
+    [[nodiscard]] int32_t* gBP_3rdPersonCamera_Dist() const { return p_gBP_3rdPersonCamera_Dist; } // max camera distance from player
+    [[nodiscard]] float* gBP_3rdPersonCamera_HSpeed() const { return p_gBP_3rdPersonCamera_HSpeed; }  // right stick -> camera x
+    [[nodiscard]] float* gBP_3rdPersonCamera_VSpeed() const { return p_gBP_3rdPersonCamera_VSpeed; }  // right stick -> camera y
+    [[nodiscard]] int32_t* gBP_Camera_InheritRot() const { return p_gBP_Camera_InheritRot; } //if entering fpv should inherit tpv's angle
+    [[nodiscard]] bool IsMouseInputActive() const { return p_KeyboardMouseInputActive != nullptr && *p_KeyboardMouseInputActive != 0 && p_MouseMovementActive != nullptr && *p_MouseMovementActive != 0; }
 
 
 private:
@@ -215,6 +222,14 @@ private:
     int* p_HZX_CurrentGroupID = nullptr;
     FVECTOR* p_GM_CameraTarget = nullptr;
     FVECTOR* p_ArmCamShift = nullptr;
+    int32_t* p_gBP_3rdPersonCamera_Override = nullptr;
+    SVECTOR* p_gBP_3rdPersonCamera_Rot = nullptr;
+    int32_t* p_gBP_3rdPersonCamera_Dist = nullptr;
+    float* p_gBP_3rdPersonCamera_HSpeed = nullptr;
+    float* p_gBP_3rdPersonCamera_VSpeed = nullptr;
+    int32_t* p_gBP_Camera_InheritRot = nullptr;
+    int32_t* p_KeyboardMouseInputActive = nullptr;
+    int32_t* p_MouseMovementActive = nullptr;
 #if defined(MGS3_FPS_DEV)
     int32_t* p_gBP_1stPersonCamera_EnableMovement = nullptr;
 #endif

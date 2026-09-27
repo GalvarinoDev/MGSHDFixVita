@@ -3,7 +3,6 @@
 #include "common.hpp"
 #include "input_handler.hpp"
 
-#include <Xinput.h> //not actually using xinput, as steam input blocks it out - just using the VK defs.
 
 #include "d3d11_api.hpp"
 #include "logging.hpp"
@@ -36,9 +35,28 @@ namespace
     constexpr DWORD kDefaultHeldHotkeyRepeatDelayMs = 100;
     std::vector<HeldHotkeyState> g_HeldHotkeyStates;
     WNDPROC g_InputHandlerOriginalWndProc = nullptr;
+    HWND g_InputHandlerWindow = nullptr;
+
+    bool g_RawMouseInputRegistered = false;
+    HWND g_RawMouseInputWindow = nullptr;
+    volatile LONG g_RawMouseDeltaX = 0;
+    volatile LONG g_RawMouseDeltaY = 0;
 
     LRESULT CALLBACK InputHandlerWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
+        if (msg == WM_INPUT && g_RawMouseInputRegistered && hwnd == g_RawMouseInputWindow)
+        {
+            RAWINPUT rawInput {};
+            UINT rawInputSize = sizeof(rawInput);
+            if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, &rawInput, &rawInputSize, sizeof(RAWINPUTHEADER)) == rawInputSize
+                && rawInput.header.dwType == RIM_TYPEMOUSE
+                && (rawInput.data.mouse.usFlags & MOUSE_MOVE_ABSOLUTE) == 0)
+            {
+                InterlockedExchangeAdd(&g_RawMouseDeltaX, rawInput.data.mouse.lLastX);
+                InterlockedExchangeAdd(&g_RawMouseDeltaY, rawInput.data.mouse.lLastY);
+            }
+        }
+
         if (msg == WM_MOUSEWHEEL)
         {
             const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
@@ -56,20 +74,22 @@ namespace
         return CallWindowProc(g_InputHandlerOriginalWndProc, hwnd, msg, wParam, lParam);
     }
 
-    void InstallMouseWheelCapture(HWND hwnd)
+    bool InstallWindowMessageCapture(HWND hwnd)
     {
         if (hwnd == nullptr)
         {
-            return;
+            return false;
         }
 
         if (g_InputHandlerOriginalWndProc != nullptr)
         {
-            return;
+            return hwnd == g_InputHandlerWindow;
         }
 
         g_InputHandlerOriginalWndProc = reinterpret_cast<WNDPROC>(
             SetWindowLongPtr(hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(InputHandlerWndProc)));
+        g_InputHandlerWindow = g_InputHandlerOriginalWndProc != nullptr ? hwnd : nullptr;
+        return g_InputHandlerOriginalWndProc != nullptr;
     }
 
     bool IsGamepadButtonDown(const XINPUT_GAMEPAD& pad, int vkCode)
@@ -639,6 +659,56 @@ void InputHandler::RegisterHeldHotkey(int vkCode, const char* name, std::functio
     g_HeldHotkeyStates.push_back(heldState);
 }
 
+bool InputHandler::RegisterRawMouseInput(HWND hwnd)
+{
+    if (hwnd == nullptr)
+    {
+        return false;
+    }
+
+    if (g_RawMouseInputRegistered)
+    {
+        return hwnd == g_RawMouseInputWindow;
+    }
+
+    if (!InstallWindowMessageCapture(hwnd))
+    {
+        return false;
+    }
+
+    RAWINPUTDEVICE mouseDevice {};
+    mouseDevice.usUsagePage = HID_USAGE_PAGE_GENERIC;
+    mouseDevice.usUsage = HID_USAGE_GENERIC_MOUSE;
+    mouseDevice.dwFlags = 0;
+    mouseDevice.hwndTarget = hwnd;
+
+    if (!RegisterRawInputDevices(&mouseDevice, 1, sizeof(mouseDevice)))
+    {
+        static bool registrationFailureLogged = false;
+        if (!registrationFailureLogged)
+        {
+            spdlog::error("InputHandler: Raw mouse input registration failed. Error: {}", GetLastError());
+            registrationFailureLogged = true;
+        }
+        return false;
+    }
+
+    InterlockedExchange(&g_RawMouseDeltaX, 0);
+    InterlockedExchange(&g_RawMouseDeltaY, 0);
+    g_RawMouseInputWindow = hwnd;
+    g_RawMouseInputRegistered = true;
+    spdlog::info("InputHandler: Raw mouse input registered.");
+    return true;
+}
+
+POINT InputHandler::ConsumeRawMouseDelta()
+{
+    POINT delta {};
+    delta.x = InterlockedExchange(&g_RawMouseDeltaX, 0);
+    delta.y = InterlockedExchange(&g_RawMouseDeltaY, 0);
+    return delta;
+}
+
 void InputHandler::Update()
 {
 
@@ -647,7 +717,7 @@ void InputHandler::Update()
         return;
     }
 
-    InstallMouseWheelCapture(g_D3D11Hooks.MainHwnd);
+    InstallWindowMessageCapture(g_D3D11Hooks.MainHwnd);
     EnsureHeldHotkeyStateCount(hotkeys.size());
 
     const ULONGLONG currentTick = GetTickCount64();

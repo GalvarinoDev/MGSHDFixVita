@@ -520,9 +520,7 @@ namespace ConfigKeys
 
     constexpr const char* MGS2_ThirdPersonFreecam_Enabled_Section = "Third Person Freecam";
     constexpr const char* MGS2_ThirdPersonFreecam_Enabled_Setting = "Enable Third Person Freecam";
-    constexpr const char* MGS2_ThirdPersonFreecam_Enabled_Help = "(EXPERIMENTAL - SEE TOOLTIP)\n"
-                                                                 "(MOUSE SUPPORT STILL W.I.P.)\n"
-                                                                 "(!!! MAY CAUSE CRASHING !!!)\n";
+    constexpr const char* MGS2_ThirdPersonFreecam_Enabled_Help = "(EXPERIMENTAL - SEE TOOLTIP)";
     constexpr const char* MGS2_ThirdPersonFreecam_Enabled_Tooltip = "Enables the third person freecam.\n"
                                                                     "\n"
                                                                     "This was a cut-feature originally developed by Bluepoint for the 2011 HD Collection.\n"
@@ -561,10 +559,44 @@ namespace ConfigKeys
     constexpr const char* MGS2_ThirdPersonFreecam_Horizontal_Sensitivity_Help = "";
     constexpr const char* MGS2_ThirdPersonFreecam_Horizontal_Sensitivity_Tooltip = "";
 
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_X_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_X_Setting = "Invert Joystick X Axis";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_X_Help = "";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_X_Tooltip = "Inverts horizontal right-stick movement for the third-person camera.";
+
     constexpr const char* MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
     constexpr const char* MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Setting = "Vertical Camera Sensitivity";
     constexpr const char* MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Help = "";
     constexpr const char* MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Tooltip = "";
+
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Setting = "Invert Joystick Y Axis";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Help = "";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Tooltip = "Inverts vertical right-stick movement for the third-person camera.";
+
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Setting = "Mouse X Sensitivity";
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Help = "";
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Tooltip = "Multiplies raw horizontal mouse movement applied to the third-person camera.\n"
+                                                                                "Does not affect menus or controller input.";
+
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Setting = "Mouse Y Sensitivity";
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Help = "";
+    constexpr const char* MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Tooltip = "Multiplies raw vertical mouse movement applied to the third-person camera.\n"
+                                                                                "Does not affect menus or controller input.";
+
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_X_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_X_Setting = "Invert Mouse X Axis";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_X_Help = "";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_X_Tooltip = "Inverts raw horizontal mouse movement for the third-person camera.\n"
+                                                                           "Does not affect menus or controller input.";
+
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Setting = "Invert Mouse Y Axis";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Help = "";
+    constexpr const char* MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Tooltip = "Inverts raw vertical mouse movement for the third-person camera.\n"
+                                                                           "Does not affect menus or controller input.";
 
     constexpr const char* MGS2_ThirdPersonFreecam_Camera_Distance_Decrease_Hotkey_Section = MGS2_ThirdPersonFreecam_Enabled_Section;
     constexpr const char* MGS2_ThirdPersonFreecam_Camera_Distance_Decrease_Hotkey_Setting = "Camera - Zoom In Hotkey";
@@ -786,6 +818,35 @@ namespace ConfigKeys
     constexpr const char* DisableMouseCursor_Help = "";
     constexpr const char* DisableMouseCursor_Tooltip = "Stops the mouse cursor from showing in the launcher and game.";
 
+
+    constexpr const char* RawMouseInput_Section = "Mouse Sensitivity";
+    constexpr const char* RawMouseInput_Setting = "Use Raw Mouse Input";
+    constexpr const char* RawMouseInput_Help = "(Third Person Camera)";
+    constexpr const char* RawMouseInput_Tooltip = "Read mouse movements directly from the device, bypassing mouse acceleration.";
+
+    constexpr const char* ThirdPersonMouseSensitivity_XMultiplier_Section = "Mouse Sensitivity";
+    constexpr const char* ThirdPersonMouseSensitivity_XMultiplier_Setting = "Third Person X Sensitivity";
+    constexpr const char* ThirdPersonMouseSensitivity_XMultiplier_Help = "";
+    constexpr const char* ThirdPersonMouseSensitivity_XMultiplier_Tooltip = "Multiplies raw horizontal mouse movement applied to the third-person camera.\n"
+                                                                             "Does not affect menus, controller input, or first-person controls.";
+
+    constexpr const char* ThirdPersonMouseSensitivity_YMultiplier_Section = "Mouse Sensitivity";
+    constexpr const char* ThirdPersonMouseSensitivity_YMultiplier_Setting = "Third Person Y Sensitivity";
+    constexpr const char* ThirdPersonMouseSensitivity_YMultiplier_Help = "";
+    constexpr const char* ThirdPersonMouseSensitivity_YMultiplier_Tooltip = "Multiplies raw vertical mouse movement applied to the third-person camera.\n"
+                                                                             "Does not affect menus, controller input, or first-person controls.";
+
+    constexpr const char* InvertThirdPersonMouseX_Section = "Mouse Sensitivity";
+    constexpr const char* InvertThirdPersonMouseX_Setting = "Invert Third Person X Axis";
+    constexpr const char* InvertThirdPersonMouseX_Help = "";
+    constexpr const char* InvertThirdPersonMouseX_Tooltip = "Inverts raw horizontal mouse movement for the third-person camera.\n"
+                                                            "Does not affect menus, controller input, or first-person controls.";
+
+    constexpr const char* InvertThirdPersonMouseY_Section = "Mouse Sensitivity";
+    constexpr const char* InvertThirdPersonMouseY_Setting = "Invert Third Person Y Axis";
+    constexpr const char* InvertThirdPersonMouseY_Help = "";
+    constexpr const char* InvertThirdPersonMouseY_Tooltip = "Inverts raw vertical mouse movement for the third-person camera.\n"
+                                                            "Does not affect menus, controller input, or first-person controls.";
 
     constexpr const char* OverrideMouseSensitivity_Section = "Mouse Sensitivity";
     constexpr const char* OverrideMouseSensitivity_Setting = "Override Mouse Sensitivity";

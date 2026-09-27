@@ -17,6 +17,8 @@ namespace MGS2_ThirdPersonFreecam
     inline int iMax_Camera_Distance = 0;
     inline float fHorizontal_Sensitivity = 0.0f;
     inline float fVertical_Sensitivity = 0.0f;
+    inline bool bInvertJoystickX = false;
+    inline bool bInvertJoystickY = false;
 
     inline int iCameraDistanceStep = 250;
     inline int vkToggle_Increase_Camera_Distance = 0;

@@ -84,6 +84,7 @@
 #include "mgs2_solidus_pipe.hpp"
 #include "mgs2_snake_tales_radar.hpp"
 #include "mgs2_thermal_goggles.hpp"
+#include "raw_mouse_input.hpp"
 #include "mgs2_bandana_mass.hpp"
 #include "mgs2_scanline_scale.hpp"
 #include "mgs2_fixed_alpha.hpp"
@@ -647,6 +648,31 @@ void Config::Read()
     }
     LOG_CONFIG(ConfigKeys::MGS2Sunglasses_Section, ConfigKeys::MGS2Sunglasses_Setting, sShouldWearSunglasses);
 
+    if (eGameType & MGS2)
+    {
+        ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Setting, RawMouseInput::fThirdPersonSensitivityX);
+        ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Setting, RawMouseInput::fThirdPersonSensitivityY);
+        ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_X_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_X_Setting, RawMouseInput::bInvertThirdPersonX);
+        ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Setting, RawMouseInput::bInvertThirdPersonY);
+        LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_X_Sensitivity_Setting, RawMouseInput::fThirdPersonSensitivityX);
+        LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Mouse_Y_Sensitivity_Setting, RawMouseInput::fThirdPersonSensitivityY);
+        LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_X_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_X_Setting, RawMouseInput::bInvertThirdPersonX);
+        LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Mouse_Y_Setting, RawMouseInput::bInvertThirdPersonY);
+    }
+    else if (eGameType & MGS3)
+    {
+        ConfigHelper::getValue(ini, ConfigKeys::RawMouseInput_Section, ConfigKeys::RawMouseInput_Setting, RawMouseInput::bEnabled);
+        ConfigHelper::getValue(ini, ConfigKeys::ThirdPersonMouseSensitivity_XMultiplier_Section, ConfigKeys::ThirdPersonMouseSensitivity_XMultiplier_Setting, RawMouseInput::fThirdPersonSensitivityX);
+        ConfigHelper::getValue(ini, ConfigKeys::ThirdPersonMouseSensitivity_YMultiplier_Section, ConfigKeys::ThirdPersonMouseSensitivity_YMultiplier_Setting, RawMouseInput::fThirdPersonSensitivityY);
+        ConfigHelper::getValue(ini, ConfigKeys::InvertThirdPersonMouseX_Section, ConfigKeys::InvertThirdPersonMouseX_Setting, RawMouseInput::bInvertThirdPersonX);
+        ConfigHelper::getValue(ini, ConfigKeys::InvertThirdPersonMouseY_Section, ConfigKeys::InvertThirdPersonMouseY_Setting, RawMouseInput::bInvertThirdPersonY);
+        LOG_CONFIG(ConfigKeys::RawMouseInput_Section, ConfigKeys::RawMouseInput_Setting, RawMouseInput::bEnabled);
+        LOG_CONFIG(ConfigKeys::ThirdPersonMouseSensitivity_XMultiplier_Section, ConfigKeys::ThirdPersonMouseSensitivity_XMultiplier_Setting, RawMouseInput::fThirdPersonSensitivityX);
+        LOG_CONFIG(ConfigKeys::ThirdPersonMouseSensitivity_YMultiplier_Section, ConfigKeys::ThirdPersonMouseSensitivity_YMultiplier_Setting, RawMouseInput::fThirdPersonSensitivityY);
+        LOG_CONFIG(ConfigKeys::InvertThirdPersonMouseX_Section, ConfigKeys::InvertThirdPersonMouseX_Setting, RawMouseInput::bInvertThirdPersonX);
+        LOG_CONFIG(ConfigKeys::InvertThirdPersonMouseY_Section, ConfigKeys::InvertThirdPersonMouseY_Setting, RawMouseInput::bInvertThirdPersonY);
+    }
+
     ConfigHelper::getValue(ini, ConfigKeys::OverrideMouseSensitivity_Section, ConfigKeys::OverrideMouseSensitivity_Setting, bMouseSensitivity);
     ConfigHelper::getValue(ini, ConfigKeys::MouseSensitivity_XMultiplier_Section, ConfigKeys::MouseSensitivity_XMultiplier_Setting, fMouseSensitivityXMulti);
     ConfigHelper::getValue(ini, ConfigKeys::MouseSensitivity_YMultiplier_Section, ConfigKeys::MouseSensitivity_YMultiplier_Setting, fMouseSensitivityYMulti);
@@ -1125,8 +1151,14 @@ void Config::Read()
         ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Horizontal_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Horizontal_Sensitivity_Setting, MGS2_ThirdPersonFreecam::fHorizontal_Sensitivity);
         LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Horizontal_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Horizontal_Sensitivity_Setting, MGS2_ThirdPersonFreecam::fHorizontal_Sensitivity);
 
+        ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_X_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_X_Setting, MGS2_ThirdPersonFreecam::bInvertJoystickX);
+        LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_X_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_X_Setting, MGS2_ThirdPersonFreecam::bInvertJoystickX);
+
         ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Setting, MGS2_ThirdPersonFreecam::fVertical_Sensitivity);
         LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Vertical_Sensitivity_Setting, MGS2_ThirdPersonFreecam::fVertical_Sensitivity);
+
+        ConfigHelper::getValue(ini, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Setting, MGS2_ThirdPersonFreecam::bInvertJoystickY);
+        LOG_CONFIG(ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Section, ConfigKeys::MGS2_ThirdPersonFreecam_Invert_Joystick_Y_Setting, MGS2_ThirdPersonFreecam::bInvertJoystickY);
 
     }
 
