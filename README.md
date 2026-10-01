@@ -74,8 +74,6 @@ MGSHDFixVita is a port. This project would not exist without the work of the MGS
 
 The text fixes, script patches and research for each fix come from MGSHDFix. All credit for this work goes to its authors.
 
-**[Claude](https://claude.ai)** by Anthropic - assisted in development.
-
 ---
 
 > MGSHDFixVita is not affiliated with Konami, Bluepoint Games or Sony Interactive Entertainment. All trademarks belong to their respective owners.
