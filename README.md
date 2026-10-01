@@ -1,7 +1,7 @@
 # MGSHDFixVita
 
 <p align="center">
-  Fixes and restorations for Metal Gear Solid 2 in the PS Vita Metal Gear Solid HD Collection.
+  Fixes and restorations for Metal Gear Solid 2, Metal Gear Solid 3, Metal Gear and Metal Gear 2 in the PS Vita Metal Gear Solid HD Collection.
 </p>
 
 ---
@@ -14,7 +14,7 @@
 
 ## About
 
-[MGSHDFix](https://github.com/ShizCalev/MGSHDFix) fixes and restores many parts of the PC Metal Gear Solid Master Collection. MGSHDFixVita brings a selection of these fixes to MGS2 on PS Vita.
+[MGSHDFix](https://github.com/ShizCalev/MGSHDFix) fixes and restores many parts of the PC Metal Gear Solid Master Collection. MGSHDFixVita brings a selection of these fixes to MGS2, MGS3, MG1 and MG2 on PS Vita.
 
 The PC code does not run on Vita. Each fix is ported again for the Vita version of the game. Some PC fixes are for bugs that the Vita version does not have. Other PC fixes are for PC features only. This project does not port those fixes.
 
@@ -53,6 +53,8 @@ We must test each fix on Vita hardware before release. This list can change.
 
 1. A PS Vita or PS TV with custom firmware and taiHEN.
 2. A legitimate copy of Metal Gear Solid HD Collection for PS Vita.
+
+The standalone MGS2 HD Edition and MGS3 HD Edition are also supported.
 
 MGSHDFixVita does not provide or distribute game files.
 
