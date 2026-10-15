@@ -14,7 +14,9 @@ def vita_ip():
     if env.is_file():
         for ln in env.read_text().splitlines():
             if ln.startswith("VITA_IP="):
-                return ln.split("=", 1)[1].strip().strip('"')
+                v = ln.split("=", 1)[1].strip().strip('"')
+                # shell default form: ${VITA_IP:-<ip>}
+                return v[v.index(":-") + 2:-1] if v.startswith("${") else v
     sys.exit("vcmd: no Vita IP. Set VITA_IP or write VITA_IP=<ip> in local/vita.env")
 
 if len(sys.argv) < 2:

@@ -13,6 +13,7 @@
 #   launch <TITLEID>          start a game
 #   quit                      close all apps ("quit <TITLEID>" does not work)
 #   push <local> <remote>     upload a file or a folder
+#   mkdir <remote>            create a folder and its parents (only under ux0:/data/mgshdfixvita)
 #   rm <remote>               delete a file or a folder (only under ux0:/rePatch or ux0:/data/mgshdfixvita)
 #   restore <backup-dir>      put a backup from "backup" back on the Vita
 #   cmd "<command>"           send any vitacompanion command
@@ -146,6 +147,15 @@ case "$c" in
     push)
         [ -n "$2" ] || { echo "usage: vita.sh push <local> <remote>"; exit 1; }
         guard; push_any "$1" "$2" || exit 3;;
+    mkdir)
+        case "$1" in ux0:/data/mgshdfixvita|ux0:/data/mgshdfixvita/*) ;; *) echo "vita: mkdir is only allowed under ux0:/data/mgshdfixvita"; exit 1;; esac
+        case "$1" in *..*) echo "vita: mkdir does not accept .. in paths"; exit 1;; esac
+        guard
+        p=ux0:/data
+        for part in $(echo "${1#ux0:/data/}" | tr '/' ' '); do
+            p="$p/$part"
+            [ "$(kind "$p")" = d ] || curl -s -f --max-time 20 -Q "MKD /$p" "$FTP/" -o /dev/null || { echo "vita: mkdir failed: $p"; exit 3; }
+        done;;
     rm)
         [ -n "$1" ] || { echo "usage: vita.sh rm <remote>"; exit 1; }
         guard; rm_any "$1" || exit 3;;
